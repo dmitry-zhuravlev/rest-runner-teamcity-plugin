@@ -1,0 +1,24 @@
+language: java
+jdk:
+- oraclejdk8
+before_cache:
+- rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+- rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+cache:
+  directories:
+  - "$HOME/.gradle/caches/"
+  - "$HOME/.gradle/wrapper/"
+script: "./gradlew clean build"
+
+before_deploy:
+    - export PLUGIN_DIST=$(ls rest-runner-server/distributions/rest-runner-teamcity-plugin*.zip)
+
+deploy:
+  provider: releases
+  api_key:
+    secure: iKyRxCwlGQrzOZbgcvJwIkplrV6vRSiXPFV1PDSXGKBkr6sCL40iEnTH2uYPGx9jSn/2Swen40P3PsYJCRZob3jggAm2ERwVoyO1HFqqb9Tx978gpxHnUYDo1BoTyloR5rlgEh9rsVyyqS8ky+oJRmNX8Cxv1gTsa4zzYcp0aPIrJpk+oFy+Wg8R9J1DZ60MYpV4Q1qj6dZhu53hs+wFORxLrEr1s0hU1ubTy7cBRlTnOSz/TFSD7bZnxaywbIdMJ5/EKHNefRR4LnLmDaYebtORuxztqeviqnHTZLn4kvB8l5JVOnmi9EZEBXizjq/PJtlfxjMV4NkttsbIR0kmXswsKOcL3pkKxbIe9LQ5cNp5elJUmZFxvddsYBjFaGyYJq7gynbxq/XzVUJ/o7T5HXeAvuN+50321guyVz0yB/417hspQ6bYhn+L1Jk7KTeLBEmEdkaku0IMey7+ObuIp0pPPBbIgjxmPjJV7TsOWTnzquVZQZMIomldkNriSqBvAbS7kcs1DhILKvwaid2N3m5CJTrCMO1ZGeNzHpN3mh6e5YSChSaNFdk9KNgirETGnwo2KCMzb6e7Waj7SXGJ9b3KThIQIswnJ4weZ1OizUZ4guiZg1cxhJSgEYrMVaWhskeU9uJgiOI1Wa7GvI2bFZjuur+vh13eH036y1xDzkA=
+  file: "${PLUGIN_DIST}"
+  skip_cleanup: true
+  on:
+    repo: dmitry-zhuravlev/rest-runner-teamcity-plugin
+    tags: true
