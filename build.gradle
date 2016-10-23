@@ -1,0 +1,42 @@
+
+buildscript {
+  ext.kotlin_version = '1.0.4'
+  repositories {
+        mavenLocal()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    mavenCentral()
+  }
+    dependencies {
+        classpath group: 'com.github.rodm', name: 'gradle-teamcity-plugin', version: /*'0.10-SNAPSHOT'*/'0.9.1'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+ext {
+	teamcityVersion = '10.0.2'
+}
+
+subprojects {
+    group = 'com.github.teamcity'
+    version = '1.0-SNAPSHOT'
+
+    apply plugin: 'kotlin'
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        jcenter()
+        maven {
+            url = 'http://repository.jetbrains.com/all'
+        }
+    }
+
+}
+
+

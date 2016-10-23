@@ -1,0 +1,23 @@
+apply plugin: 'com.github.rodm.teamcity-agent'
+
+dependencies {
+  testCompile("org.jetbrains.teamcity:tests-support:$teamcityVersion"){
+    exclude group:'org.jetbrains.teamcity', module: 'server-api'
+  }
+  testCompile("org.springframework.boot:spring-boot-starter-web:1.4.1.RELEASE"){
+    exclude group: 'org.springframework.boot', module:'spring-boot-starter-logging'
+  }
+  testCompile "org.springframework.boot:spring-boot-starter-log4j:1.3.8.RELEASE"
+  testCompile "org.springframework.boot:spring-boot-starter-test:1.4.1.RELEASE"
+  compile "org.codehaus.groovy:groovy-all:2.4.7"
+  compile project(':rest-runner-common')
+}
+
+teamcity {
+  version = teamcityVersion
+  descriptor {
+    pluginDeployment {
+      useSeparateClassloader = true
+    }
+  }
+}

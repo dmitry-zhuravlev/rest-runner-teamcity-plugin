@@ -1,0 +1,50 @@
+apply plugin: 'com.github.rodm.teamcity-server'
+
+ext {
+    downloadsDir = project.findProperty('downloads.dir') ?: "$rootDir/downloads"
+    serversDir = project.findProperty('servers.dir') ?: "$rootDir/servers"
+    java8Home = project.findProperty('java8.home') ?: '/opt/jdk1.8.0_92'
+    serverOptions = project.findProperty('server.options') ?: '-Dteamcity.development.mode=true -Dteamcity.development.shadowCopyClasses=true'
+    agentOptions = project.findProperty('agent.options') ?: ''
+}
+
+dependencies {
+    agent project(path: ':rest-runner-agent', configuration: 'plugin')
+    compile project(':rest-runner-common')
+}
+
+jar {
+    exclude('WEB-INF')
+}
+
+teamcity {
+    version = teamcityVersion
+
+    server {
+        descriptor {
+            name = 'REST Runner'
+            displayName = 'REST Runner'
+            version = project.version
+            vendorName = 'Dmitry Zhuravlev'
+            description = 'TeamCity build runner for executing REST call and analyzing the response'
+            email = 'dmitry.anatolyevich.zhuravlev@gmail.com'
+            useSeparateClassloader = true
+        }
+
+        downloadsDir = project.downloadsDir
+        baseHomeDir = project.serversDir
+        baseDataDir = 'data'
+
+        environments {
+            teamcity10 {
+                version = '10.0.2'
+                dataDir = file("$rootDir/servers/TeamCity-$version/data")
+                javaHome = file(java8Home)
+                serverOptions = project.serverOptions
+                agentOptions = project.agentOptions
+            }
+        }
+    }
+}
+
+

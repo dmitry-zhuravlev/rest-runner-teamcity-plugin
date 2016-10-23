@@ -1,0 +1,6 @@
+
+rootProject.name = 'rest-runner-teamcity-plugin'
+
+include 'rest-runner-common'
+include 'rest-runner-agent'
+include 'rest-runner-server'
