@@ -12,7 +12,7 @@ import javax.net.ssl.HttpsURLConnection
 /**
  * Default HttpClient in Fuel library doesn't support proxy.
  * So here is temporary HttpClient with proxy support.
- * //FIXME Will be removed after merge of https://github.com/kittinunf/Fuel/pull/117
+ * //FIXME Will be removed after merge of https://github.com/kittinunf/Fuel/pull/120
  */
 class HttpClient(val proxy: Proxy? = null) : Client {
     override fun executeRequest(request: Request): Response {

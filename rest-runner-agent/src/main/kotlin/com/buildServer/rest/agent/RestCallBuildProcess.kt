@@ -3,7 +3,6 @@ package com.buildServer.rest.agent
 import com.buildServer.rest.agent.analyzer.*
 import com.buildServer.rest.common.RestCallType.*
 import com.buildServer.rest.common.http.HttpClient
-import com.buildServer.rest.common.http.ProxyLocator
 import com.github.kittinunf.fuel.core.FuelManager
 import com.github.kittinunf.fuel.core.Request
 import com.github.kittinunf.fuel.core.interceptors.redirectResponseInterceptor
@@ -37,7 +36,7 @@ internal class RestCallBuildProcess(private val context: BuildRunnerContext) : B
     private lateinit var call: Request
 
     init {
-        FuelManager.instance.client = HttpClient(ProxyLocator.findAgentProxyConfiguration())
+        FuelManager.instance.client = HttpClient()
         FuelManager.instance.removeAllResponseInterceptors()
         FuelManager.instance.addResponseInterceptor(redirectResponseInterceptor())
     }
