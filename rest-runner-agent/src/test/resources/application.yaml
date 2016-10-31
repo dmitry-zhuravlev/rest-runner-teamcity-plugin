@@ -1,2 +1,7 @@
 server:
   port: 8999
+
+security:
+  user:
+    name: user
+    password: e90468c9-b001-42e2-94e1-a1416ecb95ca

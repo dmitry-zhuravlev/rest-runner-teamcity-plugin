@@ -67,6 +67,8 @@ internal class RestCallBuildProcess(private val context: BuildRunnerContext) : B
             PUT -> endpoint.httpPut(context.getRequestParams())
             DELETE -> endpoint.httpDelete(context.getRequestParams())
         }
+        val user = context.getRequestAuthenticationUser()
+        if (user != null) call.authenticate(user.userName, user.password)
     }
 
     private fun executeCall(): BuildFinishedStatus {

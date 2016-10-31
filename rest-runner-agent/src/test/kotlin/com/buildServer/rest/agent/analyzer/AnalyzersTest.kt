@@ -15,11 +15,14 @@ open class AnalyzersTest {
     fun testGroovyAnalyzer() {
         val groovyScriptBody = """
         def parser = new groovy.json.JsonSlurper()
-        def object = parser.parseText("${'$'}response")
-        object.name == 'Dmitry'
+        def user = parser.parseText("${'$'}response")
+        user.name == 'Dmitry' && headers['Content-Type'][0] == 'application/json'
         """
         val responseData = "{ \"name\": \"Dmitry\" } /* some comment */ "
-        val status = GroovyScriptAnalyzer(groovyScriptBody).analyze(Response().apply { data = responseData.toByteArray(Charsets.UTF_8) })
+        val status = GroovyScriptAnalyzer(groovyScriptBody).analyze(Response().apply {
+            httpResponseHeaders = mapOf("Content-Type" to listOf("application/json"))
+            data = responseData.toByteArray(Charsets.UTF_8)
+        })
         Assert.assertEquals(BuildFinishedStatus.FINISHED_SUCCESS, status)
     }
 

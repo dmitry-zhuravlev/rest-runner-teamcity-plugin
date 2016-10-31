@@ -4,6 +4,9 @@ dependencies {
   testCompile("org.jetbrains.teamcity:tests-support:$teamcityVersion"){
     exclude group:'org.jetbrains.teamcity', module: 'server-api'
   }
+  testCompile("org.springframework.boot:spring-boot-starter-security:1.4.1.RELEASE"){
+    exclude group: 'org.springframework.boot', module:'spring-boot-starter-logging'
+  }
   testCompile("org.springframework.boot:spring-boot-starter-web:1.4.1.RELEASE"){
     exclude group: 'org.springframework.boot', module:'spring-boot-starter-logging'
   }

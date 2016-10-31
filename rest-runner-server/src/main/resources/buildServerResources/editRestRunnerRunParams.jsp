@@ -31,6 +31,20 @@
             <span class="smallNote">Request params specified in form key=value with "," delimiter. E.g. param1=value1, param2=value2.</span>
         </td>
     </tr>
+    <tr class="advancedSetting">
+        <th><label for="ui.rest.runner.request.username">Username: </label></th>
+        <td>
+            <props:textProperty name="<%=REST_RUNNER_REQUEST_USERNAME%>" className="longField" maxlength="256"/>
+            <span class="smallNote">Username for BASIC authentication on endpoint.</span>
+        </td>
+    </tr>
+    <tr class="advancedSetting">
+        <th><label for="ui.rest.runner.request.password">Password: </label></th>
+        <td>
+            <props:passwordProperty name="<%=REST_RUNNER_REQUEST_PASSWORD%>" className="longField" maxlength="256"/>
+            <span class="smallNote">Password for BASIC authentication on endpoint.</span>
+        </td>
+    </tr>
 </l:settingsGroup>
 <l:settingsGroup title="Response assertions">
     <tr>
@@ -51,7 +65,7 @@
         <th><label for="ui.rest.runner.groovy.script">Groovy script: </label></th>
         <td>
             <props:textProperty name="<%=REST_RUNNER_GROOVY_SCRIPT%>" className="longField" expandable="true"/>
-            <span class="smallNote">Groovy script for analyzing response.<br/>Script input parameter is "response" variable means response string.<br/>Script must return a boolean value: 'true' for successful step 'false' otherwise.</span>
+            <span class="smallNote">Groovy script for analyzing response.<br/>Script input parameters: "response" - response string, "headers" - response HTTP headers.<br/>Script must return a boolean value: 'true' for successful step 'false' otherwise.</span>
         </td>
     </tr>
 </l:settingsGroup>

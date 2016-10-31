@@ -23,7 +23,10 @@ internal class GroovyScriptAnalyzer(private val groovyScriptBody: String) : Resp
             status = BuildFinishedStatus.FINISHED_SUCCESS
         } else
             try {
-                if ((groovyEngine.apply { put("response", String(response.data, Charsets.UTF_8)) }.eval(groovyScriptBody) as? Boolean) ?: false)
+                if ((groovyEngine.apply {
+                    put("headers", response.httpResponseHeaders)
+                    put("response", String(response.data, Charsets.UTF_8))
+                }.eval(groovyScriptBody) as? Boolean) ?: false)
                     status = BuildFinishedStatus.FINISHED_SUCCESS
                 else
                     status = BuildFinishedStatus.FINISHED_WITH_PROBLEMS

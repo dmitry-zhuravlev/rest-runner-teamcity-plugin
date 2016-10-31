@@ -7,6 +7,8 @@ import com.buildServer.rest.common.RestRunnerConstants.REST_RUNNER_CALL_TYPE
 import com.buildServer.rest.common.RestRunnerConstants.REST_RUNNER_ENDPOINT
 import com.buildServer.rest.common.RestRunnerConstants.REST_RUNNER_GROOVY_SCRIPT
 import com.buildServer.rest.common.RestRunnerConstants.REST_RUNNER_REQUEST_PARAMS
+import com.buildServer.rest.common.RestRunnerConstants.REST_RUNNER_REQUEST_PASSWORD
+import com.buildServer.rest.common.RestRunnerConstants.REST_RUNNER_REQUEST_USERNAME
 import jetbrains.buildServer.agent.BuildRunnerContext
 import jetbrains.buildServer.util.StringUtil.newLineToSpaceDelimited
 
@@ -31,6 +33,14 @@ fun BuildRunnerContext.getAllowedStatusCodes() = runnerParameters[REST_RUNNER_AL
 
 fun BuildRunnerContext.getAllowedHttpHeaders() = parseParams(REST_RUNNER_ALLOWED_HTTP_HEADERS).toMap()
 fun BuildRunnerContext.getRequestParams() = parseParams(REST_RUNNER_REQUEST_PARAMS).toList()
+fun BuildRunnerContext.getRequestAuthenticationUser(): User? {
+    val userName = runnerParameters[REST_RUNNER_REQUEST_USERNAME].orEmpty()
+    val password = runnerParameters[REST_RUNNER_REQUEST_PASSWORD].orEmpty()
+    if (userName.isNotEmpty() && userName.isNotBlank() && password.isNotEmpty() && password.isNotBlank()) {
+        return User(userName, password)
+    }
+    return null
+}
 
 
 private fun BuildRunnerContext.parseParams(runnerConstant: String)
@@ -41,3 +51,5 @@ private fun BuildRunnerContext.parseParams(runnerConstant: String)
                 splitted[0].trim() to splitted[1].trim()
             else null
         }.filterNotNull().toSet()
+
+data class User(val userName: String, val password: String)

@@ -1,4 +1,6 @@
 downloads/
 servers/
 .idea/
+classes/
+.gradle/
 rest-runner-server/src/main/resources/WEB-INF/
