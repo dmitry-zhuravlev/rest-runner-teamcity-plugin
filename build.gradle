@@ -9,7 +9,7 @@ buildscript {
     mavenCentral()
   }
     dependencies {
-        classpath group: 'com.github.rodm', name: 'gradle-teamcity-plugin', version: /*'0.10-SNAPSHOT'*/'0.9.1'
+        classpath group: 'com.github.rodm', name: 'gradle-teamcity-plugin', version: '0.10'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }

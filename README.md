@@ -32,8 +32,5 @@ E.g. for HTTP proxy server:
 E.g. for HTTPS proxy server: 
 
 `-Dhttps.proxyHost=somecompany.com -Dhttps.proxyPort=3128 -Dhttps.nonProxyHosts="localhost|192.168.*"`
-  
-<b>Note:</b> To start TeamCity agent in debug mode the `agentOptions` should be specified. This options supported only by 
-   `com.github.rodm:gradle-teamcity-plugin:0.10-SNAPSHOT`. Download [gradle-teamcity-plugin](https://github.com/rodm/gradle-teamcity-plugin) and build `0.10-SNAPSHOT` instead of using `0.9.1` 
-   
+    
 
