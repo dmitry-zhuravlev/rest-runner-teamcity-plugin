@@ -58,7 +58,7 @@
         <th><label for="ui.rest.runner.allowed.http.headers">Allowed HTTP headers: </label></th>
         <td>
             <props:textProperty name="<%=REST_RUNNER_ALLOWED_HTTP_HEADERS%>" className="longField" expandable="true"/>
-            <span class="smallNote">Allowed HTTP response headers "," delimiter. E.g. Content-Type=text/html;charset=UTF-9, Content-Length=5.<br/>All headers must be present in response for successful step.</span>
+            <span class="smallNote">Allowed HTTP response headers "," delimiter. E.g. Content-Type=text/html;charset=UTF-8, Content-Length=5.<br/>All headers must be present in response for successful step.</span>
         </td>
     </tr>
     <tr>
