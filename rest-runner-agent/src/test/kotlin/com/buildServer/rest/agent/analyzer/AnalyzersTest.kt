@@ -9,7 +9,7 @@ import org.junit.Test
  * @author Dmitry Zhuravlev
  *         Date:  20.10.2016
  */
-open class AnalyzersTest {
+class AnalyzersTest {
 
     @Test
     fun testGroovyAnalyzer() {

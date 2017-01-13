@@ -10,6 +10,7 @@ import com.buildServer.rest.common.RestRunnerConstants.REST_RUNNER_GROOVY_SCRIPT
 import com.buildServer.rest.common.RestRunnerConstants.REST_RUNNER_REQUEST_PARAMS
 import com.buildServer.rest.common.RestRunnerConstants.REST_RUNNER_REQUEST_PASSWORD
 import com.buildServer.rest.common.RestRunnerConstants.REST_RUNNER_REQUEST_USERNAME
+import jetbrains.buildServer.agent.AgentRunningBuild
 import jetbrains.buildServer.agent.BuildFinishedStatus
 import jetbrains.buildServer.agent.BuildRunnerContext
 import jetbrains.buildServer.agent.NullBuildProgressLogger
@@ -27,7 +28,7 @@ import org.springframework.test.context.junit4.SpringRunner
  */
 @RunWith(SpringRunner::class)
 @RestAgentTest
-open internal class RestCallBuildProcessTest {
+class RestCallBuildProcessTest {
 
     @Value("\${server.port}")
     lateinit var port: Integer
@@ -36,7 +37,7 @@ open internal class RestCallBuildProcessTest {
     lateinit private var buildRunnerContext: BuildRunnerContext
 
     @MockBean
-    lateinit private var testAgentRunningBuild: TestAgentRunningBuild
+    lateinit private var testAgentRunningBuild: AgentRunningBuild
 
     private fun setupBuildRunnerContext(resource: String,
                                         callType: RestCallType,
@@ -62,7 +63,7 @@ open internal class RestCallBuildProcessTest {
     }
 
     @Test
-    open fun testGet404() {
+    fun testGet404() {
         setupBuildRunnerContext(
                 resource = "404",
                 callType = GET,
@@ -75,7 +76,7 @@ open internal class RestCallBuildProcessTest {
     }
 
     @Test
-    open fun testPost404() {
+    fun testPost404() {
         setupBuildRunnerContext(
                 resource = "404",
                 callType = POST,
@@ -88,7 +89,7 @@ open internal class RestCallBuildProcessTest {
     }
 
     @Test
-    open fun testPut404() {
+    fun testPut404() {
         setupBuildRunnerContext(
                 resource = "404",
                 callType = PUT,
@@ -101,7 +102,7 @@ open internal class RestCallBuildProcessTest {
     }
 
     @Test
-    open fun testDelete404() {
+    fun testDelete404() {
         setupBuildRunnerContext(
                 resource = "404",
                 callType = DELETE,
@@ -115,7 +116,7 @@ open internal class RestCallBuildProcessTest {
 
 
     @Test
-    open fun testFailGet404() {
+    fun testFailGet404() {
         setupBuildRunnerContext(
                 resource = "404",
                 callType = GET,
@@ -128,7 +129,7 @@ open internal class RestCallBuildProcessTest {
     }
 
     @Test
-    open fun testFailPost404() {
+    fun testFailPost404() {
         setupBuildRunnerContext(
                 resource = "404",
                 callType = POST,
@@ -141,7 +142,7 @@ open internal class RestCallBuildProcessTest {
     }
 
     @Test
-    open fun testFailPut404() {
+    fun testFailPut404() {
         setupBuildRunnerContext(
                 resource = "404",
                 callType = PUT,
@@ -154,7 +155,7 @@ open internal class RestCallBuildProcessTest {
     }
 
     @Test
-    open fun testFailDelete404() {
+    fun testFailDelete404() {
         setupBuildRunnerContext(
                 resource = "404",
                 callType = DELETE,
@@ -167,7 +168,7 @@ open internal class RestCallBuildProcessTest {
     }
 
     @Test
-    open fun testGet200WithoutExpected() {
+    fun testGet200WithoutExpected() {
         setupBuildRunnerContext(
                 resource = "200",
                 callType = GET
@@ -178,7 +179,7 @@ open internal class RestCallBuildProcessTest {
     }
 
     @Test
-    open fun testGet200() {
+    fun testGet200() {
         setupBuildRunnerContext(
                 resource = "200",
                 callType = GET,
@@ -191,7 +192,7 @@ open internal class RestCallBuildProcessTest {
     }
 
     @Test
-    open fun testFailGet200() {
+    fun testFailGet200() {
         setupBuildRunnerContext(
                 resource = "200",
                 callType = GET,
@@ -204,7 +205,7 @@ open internal class RestCallBuildProcessTest {
     }
 
     @Test
-    open fun testCallGETWithParam() {
+    fun testCallGETWithParam() {
         setupBuildRunnerContext(
                 resource = "GETWithParam",
                 params = setOf(
@@ -220,7 +221,7 @@ open internal class RestCallBuildProcessTest {
     }
 
     @Test
-    open fun testCallPOSTWithParam() {
+    fun testCallPOSTWithParam() {
         setupBuildRunnerContext(
                 resource = "POSTWithParam",
                 params = setOf(
@@ -237,7 +238,7 @@ open internal class RestCallBuildProcessTest {
 
 
     @Test
-    open fun testCallGetUser() {
+    fun testCallGetUser() {
         val groovyScriptBody = """
         def parser = new groovy.json.JsonSlurper()
         def user = parser.parseText("${'$'}response")
@@ -256,7 +257,7 @@ open internal class RestCallBuildProcessTest {
     }
 
     @Test
-    open fun testFailCallGetUser() {
+    fun testFailCallGetUser() {
         val groovyScriptBody = """
         def parser = new groovy.json.JsonSlurper()
         def user = parser.parseText("${'$'}response")
@@ -275,7 +276,7 @@ open internal class RestCallBuildProcessTest {
     }
 
     @Test
-    open fun testGetSecuredEndpoint() {
+    fun testGetSecuredEndpoint() {
         setupBuildRunnerContext(
                 resource = "secured",
                 callType = GET,
@@ -290,7 +291,7 @@ open internal class RestCallBuildProcessTest {
     }
 
     @Test
-    open fun testGetSecuredWithoutAuthEndpoint() {
+    fun testGetSecuredWithoutAuthEndpoint() {
         setupBuildRunnerContext(
                 resource = "secured",
                 callType = GET,

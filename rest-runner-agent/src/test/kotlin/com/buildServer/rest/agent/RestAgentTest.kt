@@ -13,4 +13,4 @@ import org.springframework.context.annotation.ComponentScan
 @EnableAutoConfiguration
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @ComponentScan("com.buildServer.rest.agent")
-internal annotation class RestAgentTest
+annotation class RestAgentTest
