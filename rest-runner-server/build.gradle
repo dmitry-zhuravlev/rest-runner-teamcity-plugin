@@ -37,7 +37,7 @@ teamcity {
 
         environments {
             teamcity10 {
-                version = '10.0.2'
+                version = teamcityVersion
                 dataDir = file("$rootDir/servers/TeamCity-$version/data")
                 javaHome = file(java8Home)
                 serverOptions = project.serverOptions

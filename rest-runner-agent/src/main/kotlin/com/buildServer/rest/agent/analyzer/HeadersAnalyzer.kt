@@ -9,15 +9,15 @@ import jetbrains.buildServer.agent.BuildFinishedStatus
  */
 internal class HeadersAnalyzer(private val allowedHeaders: Map<String, String>) : ResponseAnalyzer {
 
-    private lateinit var status: BuildFinishedStatus
+    private lateinit var status: ResponseAnalyzerStatus
 
-    override fun isFailed() = status.isFailed
+    override fun status() = status
 
     override fun analyze(response: Response) = with(response) {
         if (allowedHeaders.isEmpty() || allowedHeaders.entries.all { header -> containsHeader(header, response) })
-            status = BuildFinishedStatus.FINISHED_SUCCESS
+            status = ResponseAnalyzerStatus(BuildFinishedStatus.FINISHED_SUCCESS)
         else
-            status = BuildFinishedStatus.FINISHED_WITH_PROBLEMS
+            status = ResponseAnalyzerStatus(BuildFinishedStatus.FINISHED_WITH_PROBLEMS)
         status
     }
 

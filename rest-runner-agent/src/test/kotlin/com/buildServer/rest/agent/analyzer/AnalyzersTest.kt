@@ -2,7 +2,7 @@ package com.buildServer.rest.agent.analyzer
 
 import com.github.kittinunf.fuel.core.Response
 import jetbrains.buildServer.agent.BuildFinishedStatus
-import org.junit.Assert
+import org.junit.Assert.assertEquals
 import org.junit.Test
 
 /**
@@ -19,24 +19,24 @@ class AnalyzersTest {
         user.name == 'Dmitry' && headers['Content-Type'][0] == 'application/json'
         """
         val responseData = "{ \"name\": \"Dmitry\" } /* some comment */ "
-        val status = GroovyScriptAnalyzer(groovyScriptBody).analyze(Response().apply {
+        val analyzerStatus = GroovyScriptAnalyzer(groovyScriptBody).analyze(Response().apply {
             httpResponseHeaders = mapOf("Content-Type" to listOf("application/json"))
             data = responseData.toByteArray(Charsets.UTF_8)
         })
-        Assert.assertEquals(BuildFinishedStatus.FINISHED_SUCCESS, status)
+        assertEquals(BuildFinishedStatus.FINISHED_SUCCESS, analyzerStatus.buildFinishedStatus)
     }
 
     @Test
     fun testHeadersAnalyzer() {
         val allowedContentTypeHeader = "Content-Type" to "application/json"
-        val status = HeadersAnalyzer(mapOf(allowedContentTypeHeader)).analyze(Response().apply { httpResponseHeaders = hashMapOf("Content-Type" to listOf("application/json")) })
-        Assert.assertEquals(BuildFinishedStatus.FINISHED_SUCCESS, status)
+        val analyzerStatus = HeadersAnalyzer(mapOf(allowedContentTypeHeader)).analyze(Response().apply { httpResponseHeaders = hashMapOf("Content-Type" to listOf("application/json")) })
+        assertEquals(BuildFinishedStatus.FINISHED_SUCCESS, analyzerStatus.buildFinishedStatus)
     }
 
     @Test
     fun testStatusCodeAnalyzer() {
         val allowedStatusCodes = setOf(200, 201)
-        val status = StatusCodeAnalyzer(allowedStatusCodes).analyze(Response().apply { httpStatusCode = 200 })
-        Assert.assertEquals(BuildFinishedStatus.FINISHED_SUCCESS, status)
+        val analyzerStatus = StatusCodeAnalyzer(allowedStatusCodes).analyze(Response().apply { httpStatusCode = 200 })
+        assertEquals(BuildFinishedStatus.FINISHED_SUCCESS, analyzerStatus.buildFinishedStatus)
     }
 }

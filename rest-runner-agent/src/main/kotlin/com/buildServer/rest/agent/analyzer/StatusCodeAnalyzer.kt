@@ -9,15 +9,15 @@ import jetbrains.buildServer.agent.BuildFinishedStatus
  */
 internal class StatusCodeAnalyzer(private val allowedStatusCodes: Set<Int>) : ResponseAnalyzer {
 
-    private lateinit var status: BuildFinishedStatus
+    private lateinit var status: ResponseAnalyzerStatus
 
-    override fun isFailed() = status.isFailed
+    override fun status() = status
 
     override fun analyze(response: Response) = with(response) {
         if (allowedStatusCodes.isEmpty() || allowedStatusCodes.contains(httpStatusCode))
-            status = BuildFinishedStatus.FINISHED_SUCCESS
+            status = ResponseAnalyzerStatus(BuildFinishedStatus.FINISHED_SUCCESS)
         else
-            status = BuildFinishedStatus.FINISHED_WITH_PROBLEMS
+            status = ResponseAnalyzerStatus(BuildFinishedStatus.FINISHED_WITH_PROBLEMS)
         status
     }
 

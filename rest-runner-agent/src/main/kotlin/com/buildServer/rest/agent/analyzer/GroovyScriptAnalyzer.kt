@@ -12,26 +12,26 @@ import javax.script.ScriptException
  */
 internal class GroovyScriptAnalyzer(private val groovyScriptBody: String) : ResponseAnalyzer {
 
-    private lateinit var status: BuildFinishedStatus
+    private lateinit var status: ResponseAnalyzerStatus
 
-    override fun isFailed() = status.isFailed
+    override fun status() = status
 
     val groovyEngine = ScriptEngineManager(javaClass.classLoader).getEngineByName("groovy") ?: throw RunBuildException("Cannot load Groovy engine")
 
     override fun analyze(response: Response) = with(response) {
         if (groovyScriptBody.isEmpty() || groovyScriptBody.isBlank()) {
-            status = BuildFinishedStatus.FINISHED_SUCCESS
+            status = ResponseAnalyzerStatus(BuildFinishedStatus.FINISHED_SUCCESS)
         } else
             try {
                 if ((groovyEngine.apply {
                     put("headers", response.httpResponseHeaders)
                     put("response", String(response.data, Charsets.UTF_8))
                 }.eval(groovyScriptBody) as? Boolean) ?: false)
-                    status = BuildFinishedStatus.FINISHED_SUCCESS
+                    status = ResponseAnalyzerStatus(BuildFinishedStatus.FINISHED_SUCCESS)
                 else
-                    status = BuildFinishedStatus.FINISHED_WITH_PROBLEMS
+                    status = ResponseAnalyzerStatus(BuildFinishedStatus.FINISHED_WITH_PROBLEMS)
             } catch (e: ScriptException) {
-                throw RunBuildException("Groovy script produce exception: ${e.message ?: ""}")
+                status = ResponseAnalyzerStatus(BuildFinishedStatus.FINISHED_WITH_PROBLEMS, "Groovy script produce exception: ${e.message ?: ""}")
             }
         status
     }
