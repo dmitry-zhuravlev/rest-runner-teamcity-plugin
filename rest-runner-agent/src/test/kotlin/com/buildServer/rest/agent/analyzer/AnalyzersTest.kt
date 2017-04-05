@@ -2,7 +2,9 @@ package com.buildServer.rest.agent.analyzer
 
 import com.github.kittinunf.fuel.core.Response
 import jetbrains.buildServer.agent.BuildFinishedStatus
+import jetbrains.buildServer.agent.NullBuildProgressLogger
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 /**
@@ -13,17 +15,26 @@ class AnalyzersTest {
 
     @Test
     fun testGroovyAnalyzer() {
+        var logged = false
+         val logger = object : NullBuildProgressLogger(){
+            override fun message(message: String?) {
+                logged = message == "Test"
+            }
+        }
         val groovyScriptBody = """
         def parser = new groovy.json.JsonSlurper()
         def user = parser.parseText("${'$'}response")
         user.name == 'Dmitry' && headers['Content-Type'][0] == 'application/json'
         """
         val responseData = "{ \"name\": \"Dmitry\" } /* some comment */ "
-        val analyzerStatus = GroovyScriptAnalyzer(groovyScriptBody).analyze(Response().apply {
+        val analyzerStatus = GroovyScriptAnalyzer(groovyScriptBody, logger).analyze(Response().apply {
             httpResponseHeaders = mapOf("Content-Type" to listOf("application/json"))
             data = responseData.toByteArray(Charsets.UTF_8)
         })
         assertEquals(BuildFinishedStatus.FINISHED_SUCCESS, analyzerStatus.buildFinishedStatus)
+
+        GroovyScriptAnalyzer("buildLogger.message('Test')", logger).analyze(Response())
+        assertTrue(logged)
     }
 
     @Test

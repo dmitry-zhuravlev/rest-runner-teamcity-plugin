@@ -31,7 +31,7 @@ internal class RestCallBuildProcess(private val context: BuildRunnerContext) : B
 
     private val buildLogger = context.build.buildLogger
 
-    private val responseAnalyzers = HeadersAnalyzer(context.getAllowedHttpHeaders()) + StatusCodeAnalyzer(context.getAllowedStatusCodes()) + GroovyScriptAnalyzer(context.getGroovyScriptBody())
+    private val responseAnalyzers = HeadersAnalyzer(context.getAllowedHttpHeaders()) + StatusCodeAnalyzer(context.getAllowedStatusCodes()) + GroovyScriptAnalyzer(context.getGroovyScriptBody(), buildLogger)
 
     private lateinit var call: Request
 
