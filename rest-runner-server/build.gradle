@@ -36,7 +36,7 @@ teamcity {
         baseDataDir = 'data'
 
         environments {
-            teamcity10 {
+            teamcity2017 {
                 version = teamcityVersion
                 dataDir = file("$rootDir/servers/TeamCity-$version/data")
                 javaHome = file(java8Home)

@@ -17,23 +17,23 @@ internal class GroovyScriptAnalyzer(private val groovyScriptBody: String, privat
 
     override fun status() = status
 
-    val groovyEngine = ScriptEngineManager(javaClass.classLoader).getEngineByName("groovy") ?: throw RunBuildException("Cannot load Groovy engine")
+    private val groovyEngine = ScriptEngineManager(javaClass.classLoader).getEngineByName("groovy") ?: throw RunBuildException("Cannot load Groovy engine")
 
     override fun analyze(response: Response) = with(response) {
-        if (groovyScriptBody.isEmpty() || groovyScriptBody.isBlank()) {
-            status = ResponseAnalyzerStatus(BuildFinishedStatus.FINISHED_SUCCESS)
+        status = if (groovyScriptBody.isEmpty() || groovyScriptBody.isBlank()) {
+            ResponseAnalyzerStatus(BuildFinishedStatus.FINISHED_SUCCESS)
         } else
             try {
                 if ((groovyEngine.apply {
                     put("headers", response.httpResponseHeaders)
                     put("response", String(response.data, Charsets.UTF_8))
                     put("buildLogger", buildLogger)
-                }.eval(groovyScriptBody) as? Boolean) ?: false)
-                    status = ResponseAnalyzerStatus(BuildFinishedStatus.FINISHED_SUCCESS)
+                }.eval(groovyScriptBody) as? Boolean) == true)
+                    ResponseAnalyzerStatus(BuildFinishedStatus.FINISHED_SUCCESS)
                 else
-                    status = ResponseAnalyzerStatus(BuildFinishedStatus.FINISHED_WITH_PROBLEMS)
+                    ResponseAnalyzerStatus(BuildFinishedStatus.FINISHED_WITH_PROBLEMS)
             } catch (e: ScriptException) {
-                status = ResponseAnalyzerStatus(BuildFinishedStatus.FINISHED_WITH_PROBLEMS, "Groovy script produce exception: ${e.message ?: ""}")
+                ResponseAnalyzerStatus(BuildFinishedStatus.FINISHED_WITH_PROBLEMS, "Groovy script produce exception: ${e.message ?: ""}")
             }
         status
     }
