@@ -26,6 +26,7 @@ teamcity {
             displayName = 'REST Runner'
             version = project.version
             vendorName = 'Dmitry Zhuravlev'
+            vendorUrl = 'https://github.com/dmitry-zhuravlev/rest-runner-teamcity-plugin'
             description = 'TeamCity build runner for executing REST call and analyzing the response'
             email = 'dmitry.anatolyevich.zhuravlev@gmail.com'
             useSeparateClassloader = true
