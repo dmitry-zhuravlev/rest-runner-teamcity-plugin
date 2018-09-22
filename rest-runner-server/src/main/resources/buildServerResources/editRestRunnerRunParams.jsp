@@ -45,6 +45,13 @@
             <span class="smallNote">Password for BASIC authentication on endpoint.</span>
         </td>
     </tr>
+    <tr class="advancedSetting">
+        <th><label for="ui.rest.runner.request.timeout">Request timeout: </label></th>
+        <td>
+            <props:textProperty name="<%=REST_RUNNER_REQUEST_TIMEOUT%>" className="longField" maxlength="11"/>
+            <span class="smallNote">Request timeout in seconds.</span>
+        </td>
+    </tr>
 </l:settingsGroup>
 <l:settingsGroup title="Response assertions">
     <tr>

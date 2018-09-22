@@ -61,11 +61,12 @@ internal class RestCallBuildProcess(private val context: BuildRunnerContext) : B
 
     private fun prepareCall() {
         val restCallType = context.getRestCallType() ?: throw RunBuildException("Cannot determine REST call type")
+        val timeout = context.getRequestTimeout()?.toIntOrNull()?: 15000
         call = when (restCallType) {
-            GET -> endpoint.httpGet(context.getRequestParams())
-            POST -> endpoint.httpPost(context.getRequestParams())
-            PUT -> endpoint.httpPut(context.getRequestParams())
-            DELETE -> endpoint.httpDelete(context.getRequestParams())
+            GET -> endpoint.httpGet(context.getRequestParams()).timeout(timeout).timeoutRead(timeout)
+            POST -> endpoint.httpPost(context.getRequestParams()).timeout(timeout).timeoutRead(timeout)
+            PUT -> endpoint.httpPut(context.getRequestParams()).timeout(timeout).timeoutRead(timeout)
+            DELETE -> endpoint.httpDelete(context.getRequestParams()).timeout(timeout).timeoutRead(timeout)
         }
         val user = context.getRequestAuthenticationUser()
         if (user != null) call.authenticate(user.userName, user.password)

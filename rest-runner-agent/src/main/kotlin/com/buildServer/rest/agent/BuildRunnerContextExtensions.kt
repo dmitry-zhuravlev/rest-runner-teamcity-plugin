@@ -8,6 +8,7 @@ import com.buildServer.rest.common.RestRunnerConstants.REST_RUNNER_ENDPOINT
 import com.buildServer.rest.common.RestRunnerConstants.REST_RUNNER_GROOVY_SCRIPT
 import com.buildServer.rest.common.RestRunnerConstants.REST_RUNNER_REQUEST_PARAMS
 import com.buildServer.rest.common.RestRunnerConstants.REST_RUNNER_REQUEST_PASSWORD
+import com.buildServer.rest.common.RestRunnerConstants.REST_RUNNER_REQUEST_TIMEOUT
 import com.buildServer.rest.common.RestRunnerConstants.REST_RUNNER_REQUEST_USERNAME
 import jetbrains.buildServer.agent.BuildRunnerContext
 import jetbrains.buildServer.util.StringUtil.newLineToSpaceDelimited
@@ -21,6 +22,7 @@ fun BuildRunnerContext.isParameterEnabled(key: String) = runnerParameters.contai
 
 fun BuildRunnerContext.getGroovyScriptBody() = runnerParameters[REST_RUNNER_GROOVY_SCRIPT].orEmpty()
 fun BuildRunnerContext.getRestEndpoint() = runnerParameters[REST_RUNNER_ENDPOINT].orEmpty()
+fun BuildRunnerContext.getRequestTimeout() = runnerParameters[REST_RUNNER_REQUEST_TIMEOUT]
 fun BuildRunnerContext.getRestCallType() = RestCallType.values().find { it.name == this@getRestCallType.runnerParameters[REST_RUNNER_CALL_TYPE].orEmpty() }
 fun BuildRunnerContext.getAllowedStatusCodes() = runnerParameters[REST_RUNNER_ALLOWED_HTTP_CODES].orEmpty().split(",").map { code ->
     try {
