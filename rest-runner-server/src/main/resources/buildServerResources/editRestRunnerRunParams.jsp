@@ -49,7 +49,7 @@
         <th><label for="ui.rest.runner.request.timeout">Request timeout: </label></th>
         <td>
             <props:textProperty name="<%=REST_RUNNER_REQUEST_TIMEOUT%>" className="longField" maxlength="11"/>
-            <span class="smallNote">Request timeout in seconds.</span>
+            <span class="smallNote">Request timeout in milliseconds.</span>
         </td>
     </tr>
 </l:settingsGroup>
